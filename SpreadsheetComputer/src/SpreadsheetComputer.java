@@ -54,20 +54,21 @@ public class SpreadsheetComputer {
                     String[] parsedString = parseStringForEachCharacter(currentFileString);
                     Stack<String> stackOfParsedTokens = parsedStringIntoTokensAndPushedToStack(parsedString);
                     Stack<String>currentStackOfTokens = calculateString(stackOfParsedTokens);
+                    //currentStackOfTokens = should be 3 for each
                     while(!currentStackOfTokens.isEmpty()){
-
-                        if(currentStackOfTokens.peek() != null ){
+                        if(currentStackOfTokens.size() > 1){
                             results = results + currentStackOfTokens.pop() + ", ";
-                        }else{
-                            results = results + currentStackOfTokens.pop();
+                        }else if(currentStackOfTokens.size() == 1){
+                            results = results + currentStackOfTokens.pop() + "\n";
                         }
-
                     }
                 }
-                results = results + "\n";
+
             }
             System.out.println("The result string is: " + results);
             //print string to file
+
+
 
         }catch(Exception e){
             e.printStackTrace();
@@ -82,7 +83,16 @@ public class SpreadsheetComputer {
 
     public int[] parseLineForArraySize(String currentFileString){
         int[] arraySizeArray = new int[2];
-        String[]parsedStringTokens = currentFileString.split(", ");
+        String[]parsedStringTokens = new String[0];
+
+        if(currentFileString.contains(", ")){
+            parsedStringTokens = currentFileString.split(", ");
+        }else if(currentFileString.contains(",")){
+            parsedStringTokens = currentFileString.split(",");
+        }else if(currentFileString.contains(" ,")){
+            parsedStringTokens = currentFileString.split(" ,");
+        }
+
         for(int tokenCount = 0; tokenCount < parsedStringTokens.length; tokenCount++){
             String token = parsedStringTokens[tokenCount];
             int sizeToken = Integer.parseInt(token);
